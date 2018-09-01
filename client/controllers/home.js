@@ -1,10 +1,28 @@
 require('../services/home');
-
+var swal = require('sweetalert');
 
 angular.module(MODULE_NAME)
 .controller('homeCtrl', ['$scope', 'HomeService', '$timeout', 'socket', function($scope, HomeService, $timeout, socket) {
   var ctrl = this;
-  $scope.hola = "new life"
+
+  $scope.init = init;
+  $scope.inicio = {
+    list: []
+  }
+
+  function init() {
+    HomeService.getInit().success((res)=> {
+      if (res) {
+        $scope.inicio.list = res;
+      } else {
+        swal({
+          icon: "error",
+          title: "Opss!",
+          text: "Hubo un error [getInit]"
+        })
+      }
+    })
+  }
 
 
 }]);
