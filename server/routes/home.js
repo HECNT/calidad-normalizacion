@@ -10,6 +10,7 @@ router.get('/get-init', getInit);
 router.get('/get-monitoreo', getMonitoreo);
 router.get('/get-taller', getTaller);
 router.get('/get-vehiculo', getVehiculo);
+router.get('/get-count', getCount);
 
 function getInit(req, res) {
   ctrl.getInit()
@@ -34,6 +35,13 @@ function getTaller(req, res) {
 
 function getVehiculo(req, res) {
   ctrl.getVehiculo()
+  .then((result)=> {
+    res.json(result)
+  })
+}
+
+function getCount(req, res) {
+  ctrl.getCount()
   .then((result)=> {
     res.json(result)
   })

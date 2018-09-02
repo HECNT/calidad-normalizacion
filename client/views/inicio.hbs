@@ -1,4 +1,4 @@
-<div style="padding-left: 100px; padding-right: 100px" ng-controller="homeCtrl" ng-init="init()">
+<div style="padding-left: 100px; padding-right: 100px" ng-controller="homeCtrl" ng-init="initMenu()">
   <div class="ui active page dimmer" ng-show="inicio.loading">
     <div class="ui indeterminate large text loader">Cargando...</div>
   </div>
@@ -21,6 +21,15 @@
           <!--  TERMINA LIST PERFIL -->
           <div class="ui divider"></div>
           <!--  INICIA LIST GENERAL -->
+          <div class="ui list">
+            <div class="item">
+              <img class="ui avatar image" src="{{url}}img/project.png">
+              <div class="content">
+                <a class="header" ng-click="btnGetDatos(0)">Inicio</a>
+                <div class="description">Ver estado general</div>
+              </div>
+            </div>
+          </div>
             <div class="ui list">
               <div class="item">
                 <img class="ui avatar image" src="{{url}}img/world.png">
@@ -70,13 +79,101 @@
             <i class="search icon"></i>
           </div><br><br>
 
+          <div ng-show="inicio.show.menu">
+            <div class="ui four cards">
+
+              <!-- INICIA CARTAS -->
+              <a class="ui card" href="">
+                <div class="content">
+                  <div class="header">Viajes</div>
+                  <div class="meta">
+                    <span class="category">Total de viajes {[inicio.count.viaje]}</span>
+                  </div>
+                  <div class="description">
+                    <p></p>
+                  </div>
+                </div>
+                <div class="extra content">
+                  <div class="right floated author">
+                    <img class="ui avatar image" src="{{url}}img/world.png"> Detalle
+                  </div>
+                </div>
+              </a>
+              <a class="ui card" href="">
+                <div class="content">
+                  <div class="header">Monitoreo</div>
+                  <div class="meta">
+                    <span class="category">Total de monitoreos {[inicio.count.monitoreo]}</span>
+                  </div>
+                  <div class="description">
+                    <p></p>
+                  </div>
+                </div>
+                <div class="extra content">
+                  <div class="right floated author">
+                    <img class="ui avatar image" src="{{url}}img/monitor.png"> Detalle
+                  </div>
+                </div>
+              </a>
+              <a class="ui card" href="">
+                <div class="content">
+                  <div class="header">Taller</div>
+                  <div class="meta">
+                    <span class="category">Total de autos en taller {[inicio.count.taller]}</span>
+                  </div>
+                  <div class="description">
+                    <p></p>
+                  </div>
+                </div>
+                <div class="extra content">
+                  <div class="right floated author">
+                    <img class="ui avatar image" src="{{url}}img/crane.png"> Detalle
+                  </div>
+                </div>
+              </a>
+              <a class="ui card" href="">
+                <div class="content">
+                  <div class="header">Vehiculo</div>
+                  <div class="meta">
+                    <span class="category">Total de vehiculos {[inicio.count.vehiculo]}</span>
+                  </div>
+                  <div class="description">
+                    <p></p>
+                  </div>
+                </div>
+                <div class="extra content">
+                  <div class="right floated author">
+                    <img class="ui avatar image" src="{{url}}img/car.png"> Detalle
+                  </div>
+                </div>
+              </a>
+              <!-- TERMINA CARTAS -->
+
+            </div>
+            <div class="ui divider"></div>
+            <h4>Ver graficas</h4>
+            <div>
+              <div class="row">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <canvas id="myChart"></canvas>
+                  </div>
+                  <div class="eight wide column">
+                    <canvas id="myChartPie"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div ng-show="inicio.show.viaje">
-            <button type="button" name="button" class="ui button mini green right floated">Agregar nuevo viaje</button><br>
+            <button type="button" name="button" class="ui button mini green right floated" ng-click="btnOpenModal(1)">Agregar nuevo viaje</button><br>
             <table class="ui table blue">
               <thead>
                 <th>#</th>
                 <th>Fecha inicio</th>
                 <th>Fecha fin</th>
+                <th>Vehiculo</th>
                 <th>Tipo Vehiculo</th>
                 <th>Estatus</th>
                 <th>Detalles</th>
@@ -86,6 +183,7 @@
                   <td>{[l.vehiculo_id]}</td>
                   <td>{[l.ini]}</td>
                   <td>{[l.fin]}</td>
+                  <td>{[l.vehiculo]}</td>
                   <td>{[l.tipo]}</td>
                   <td>{[l.estatus]}</td>
                   <td>
@@ -100,7 +198,7 @@
           </div>
 
           <div ng-show="inicio.show.monitoreo">
-            <button type="button" name="button" class="ui button mini green right floated">Agregar nuevo monitoreo</button><br>
+            <button type="button" name="button" class="ui button mini green right floated" ng-click="btnOpenModal(2)">Agregar nuevo monitoreo</button><br>
             <table class="ui table blue">
               <thead>
                 <th>#</th>
@@ -124,7 +222,7 @@
           </div>
 
           <div ng-show="inicio.show.taller">
-            <button type="button" name="button" class="ui button mini green right floated">Agregar nuevo vehiculo a taller</button><br>
+            <button type="button" name="button" class="ui button mini green right floated" ng-click="btnOpenModal(3)">Agregar nuevo vehiculo a taller</button><br>
             <table class="ui table blue">
               <thead>
                 <th>#</th>
@@ -150,7 +248,7 @@
           </div>
 
           <div ng-show="inicio.show.vehiculo">
-            <button type="button" name="button" class="ui button mini green right floated">Agregar nuevo vehiculo</button><br>
+            <button type="button" name="button" class="ui button mini green right floated" ng-click="btnOpenModal(4)">Agregar nuevo vehiculo</button><br>
             <table class="ui table blue">
               <thead>
                 <th>#</th>
@@ -192,8 +290,8 @@
     </div>
   </div>
 
-  <div class="ui modal tiny" id="modal-monitoreo">
-    <div class="header">Detalles del viaje</div>
+  <div class="ui modal" id="modal-monitoreo">
+    <div class="header">Agrega nuevo monitoreo</div>
     <div class="content">
 
     </div>
@@ -203,8 +301,8 @@
     </div>
   </div>
 
-  <div class="ui modal tiny" id="modal-viaje">
-    <div class="header">Detalles del viaje</div>
+  <div class="ui modal" id="modal-viaje">
+    <div class="header">Agrega nuevo viaje</div>
     <div class="content">
 
     </div>
@@ -214,8 +312,19 @@
     </div>
   </div>
 
-  <div class="ui modal tiny" id="modal-taller">
-    <div class="header">Detalles del viaje</div>
+  <div class="ui modal" id="modal-taller">
+    <div class="header">Agrega nuevo taller</div>
+    <div class="content">
+
+    </div>
+    <div class="actions">
+      <button type="button" name="button" class="ui button green" onclick="$('#modal-detalle').modal('hide')">Agregar</button>
+      <button type="button" name="button" class="ui button blue" onclick="$('#modal-detalle').modal('hide')">Cerrar</button>
+    </div>
+  </div>
+
+  <div class="ui modal" id="modal-vehiculo">
+    <div class="header">Agrega nuevo vehiculo</div>
     <div class="content">
 
     </div>

@@ -4,7 +4,11 @@ module.exports = {
   getInit: getInit,
   getMonitoreo: getMonitoreo,
   getTaller: getTaller,
-  getVehiculo: getVehiculo
+  getVehiculo: getVehiculo,
+  getInitC: getInitC,
+  getMonitoreoC: getMonitoreoC,
+  getTallerC: getTallerC,
+  getVehiculoC: getVehiculoC
 }
 
 function getInit() {
@@ -142,6 +146,135 @@ function getVehiculo() {
       	a1.activo,
       	a2.nombre as tipo,
       	a3.nombre as estatus
+      from
+      	vehiculo as a1
+      INNER join
+      	tipo as a2
+      on
+      	a1.tipo_id = a2.tipo_id
+      INNER join
+      	vehiculo_estatus as a3
+      on
+      	a1.vehiculo_estatus_id = a3.vehiculo_estatus_id
+
+
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+// INICIA COUNT
+function getInitC() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+
+      select
+        COUNT(*) as res
+      from
+        viaje as a1
+      INNER join
+        vehiculo as a2
+      on
+        a1.vehiculo_id = a2.vehiculo_id
+      INNER join
+        tipo as a3
+      on
+        a2.tipo_id = a3.tipo_id
+      INNER join
+        vehiculo_estatus as a4
+      on
+        a2.vehiculo_estatus_id = a4.vehiculo_estatus_id
+
+
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function getMonitoreoC() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+
+      SELECT
+      	COUNT(*) as res
+      FROM
+      	monitoreo AS a1
+      inner join
+      	estatus_monitoreo as a2
+      on
+      	a1.estatus_monitoreo_id = a2.estatus_monitoreo_id
+      inner join
+      	vehiculo as a3
+      on
+      	a1.vehiculo_id = a3.vehiculo_id
+
+
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function getTallerC() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+
+      select
+      	COUNT(*) as res
+      from
+      	vehiculo as a1
+      INNER join
+      	vehiculo_falla as a2
+      on
+      	a1.vehiculo_id = a2.vehiculo_id
+      INNER join
+      	vehiculo_estatus as a3
+      on
+      	a1.vehiculo_estatus_id = a3.vehiculo_estatus_id
+      INNER join
+      	falla as a4
+      on
+      	a2.falla_id = a4.falla_id
+      INNER join
+      	estatus_falla as a5
+      on
+      	a2.estatus_falla_id = a5.estatus_falla_id
+      INNER join
+      	taller as a6
+      on
+      	a2.taller_id = a6.taller_id
+
+
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function getVehiculoC() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+
+      select
+      	COUNT(*) as res
       from
       	vehiculo as a1
       INNER join

@@ -21,4 +21,8 @@ angular.module(MODULE_NAME)
     return $http.get(urlBase + '/get-vehiculo');
   }
 
+  this.getCount = function() {
+    return $http.get(urlBase + '/get-count');
+  }
+
 }]);
