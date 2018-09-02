@@ -9,4 +9,16 @@ angular.module(MODULE_NAME)
     return $http.get(urlBase + '/get-init');
   }
 
+  this.getMonitoreo = function() {
+    return $http.get(urlBase + '/get-monitoreo');
+  }
+
+  this.getTaller = function() {
+    return $http.get(urlBase + '/get-taller');
+  }
+
+  this.getVehiculo = function() {
+    return $http.get(urlBase + '/get-vehiculo');
+  }
+
 }]);
