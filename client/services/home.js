@@ -2,7 +2,7 @@
 
 angular.module(MODULE_NAME)
 .service('HomeService', ['$http', function($http) {
-  var url = "https://localhost:3003";
+  var url = "https://localhost:3010";
   var urlBase = url + '/home';
 
   this.getInit = function() {
