@@ -350,9 +350,9 @@ angular.module(MODULE_NAME)
   PUERTO = 3010
 
   if (isProduction) {
-    uri = `https://35.196.109.19:${PUERTO}`
+    uri = `http://35.196.109.19:${PUERTO}`
   } else {
-    uri = `https://localhost:${PUERTO}`
+    uri = `http://localhost:${PUERTO}`
   }
 
 
