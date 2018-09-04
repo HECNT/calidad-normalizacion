@@ -2,7 +2,18 @@
 
 angular.module(MODULE_NAME)
 .service('HomeService', ['$http', function($http) {
-  var url = "https://35.229.59.251:3010";
+
+  isProduction = true
+  PUERTO = 3010
+
+  if (isProduction) {
+    uri = `https://35.196.109.19:${PUERTO}`
+  } else {
+    uri = `https://localhost:${PUERTO}`
+  }
+
+
+  var url = uri
   var urlBase = url + '/home';
 
   this.getInit = function() {

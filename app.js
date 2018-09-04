@@ -11,19 +11,11 @@ var server          = null
 var path            = require('path');
 var helpers         = require('./server/modules/helpers')
 var fs              = require('fs')
-var http            = helpers.isProduccion() ? require('http') : require('https')
+var http            = require('http')
 
 // CONFIGURAR HTTPS
-if (!helpers.isProduccion()) {
-    console.log('Ambiente de pruebas')
-    server = http.createServer({
-        key: fs.readFileSync(path.join('server', 'assets', 'key.pem')),
-        cert: fs.readFileSync(path.join('server', 'assets', 'cert.pem'))
-    }, app)
-} else {
-    console.log('Ambiente de producción')
-    server = require('http').createServer(app)
-}
+
+server = require('http').createServer(app)
 
 // CONFIGURAR SOCKET IO
 io = require('socket.io').listen(server)
