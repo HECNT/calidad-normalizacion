@@ -27,7 +27,7 @@ angular.module(MODULE_NAME)
     },
     count: {},
     form: {
-      monitoreo: {}
+      monitoreo: { vehiculo_id: "", estatus_monitoreo_id: "", nota: "" }
     }
   }
 
