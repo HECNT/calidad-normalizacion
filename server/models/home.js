@@ -8,7 +8,10 @@ module.exports = {
   getInitC: getInitC,
   getMonitoreoC: getMonitoreoC,
   getTallerC: getTallerC,
-  getVehiculoC: getVehiculoC
+  getVehiculoC: getVehiculoC,
+  getVehiculoList: getVehiculoList,
+  getEstatusMonitoreo: getEstatusMonitoreo,
+  setNewMonitoreo: setNewMonitoreo
 }
 
 function getInit() {
@@ -287,6 +290,51 @@ function getVehiculoC() {
       	a1.vehiculo_estatus_id = a3.vehiculo_estatus_id
 
 
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function getVehiculoList() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+      select * from vehiculo
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function getEstatusMonitoreo() {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+      select * from estatus_monitoreo
+      `,function(err, result, fields){
+      if (err) {
+        resolve({err: true, description: err})
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+function setNewMonitoreo(d) {
+  return new Promise(function(resolve, reject) {
+    conn.query(`
+      INSERT INTO
+        calidad.monitoreo (fecha, nota, usuario, vehiculo_id, estatus_monitoreo_id)
+      VALUES
+        (CURRENT_TIMESTAMP, '${d.nota}', 'OSVALDO', ${d.vehiculo_id}, ${d.estatus_monitoreo_id});
       `,function(err, result, fields){
       if (err) {
         resolve({err: true, description: err})

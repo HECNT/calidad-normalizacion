@@ -24,6 +24,10 @@ angular.module(MODULE_NAME)
     return $http.get(urlBase + '/get-monitoreo');
   }
 
+  this.getMonitoreoList = function() {
+    return $http.get(urlBase + '/get-monitoreo-list');
+  }
+
   this.getTaller = function() {
     return $http.get(urlBase + '/get-taller');
   }
@@ -34,6 +38,10 @@ angular.module(MODULE_NAME)
 
   this.getCount = function() {
     return $http.get(urlBase + '/get-count');
+  }
+
+  this.setNewMonitoreo = function(d) {
+    return $http.post(urlBase + '/set-new-monitoreo', d);
   }
 
 }]);

@@ -11,6 +11,7 @@ angular.module(MODULE_NAME)
   $scope.btnGetDatos = btnGetDatos;
   $scope.btnOpenModal = btnOpenModal;
   $scope.initMenu = initMenu;
+  $scope.btnAgregaMonitoreo = btnAgregaMonitoreo;
 
   $scope.inicio = {
     loading: false,
@@ -24,7 +25,10 @@ angular.module(MODULE_NAME)
       vehiculo: false,
       menu: true
     },
-    count: {}
+    count: {},
+    form: {
+      monitoreo: {}
+    }
   }
 
   function btnGetDatos(id) {
@@ -140,11 +144,12 @@ angular.module(MODULE_NAME)
   }
 
   function btnOpenModal(id) {
+    $scope.loading = true
     if (id*1 === 1) {
       $("#modal-viaje").modal("show")
     }
     if (id*1 === 2) {
-      $("#modal-monitoreo").modal("show")
+      openMonitoreo()
     }
     if (id*1 === 3) {
       $("#modal-taller").modal("show")
@@ -152,6 +157,16 @@ angular.module(MODULE_NAME)
     if (id*1 === 4) {
       $("#modal-vehiculo").modal("show")
     }
+  }
+
+  function openMonitoreo() {
+    HomeService.getMonitoreoList()
+    .success((res)=> {
+      $scope.inicio.listVehiculo = res.result[0];
+      $scope.inicio.listEstatusMonitoreo = res.result[1];
+      $scope.loading = false
+      $("#modal-monitoreo").modal("show")
+    })
   }
 
   function loadChart() {
@@ -212,6 +227,54 @@ angular.module(MODULE_NAME)
             }
         }
     });
+  }
+
+  function btnAgregaMonitoreo() {
+    $scope.loading = true;
+    var d = $scope.inicio.form.monitoreo;
+    var validar = validarMonitoreo(d)
+    if (!validar.err) {
+      HomeService.setNewMonitoreo(d)
+      .success((res)=> {
+        $scope.loading = false;
+        swal({
+          icon: 'success',
+          title: 'Todo bien',
+          text: 'Se agrego el monitoreo a la base de datos'
+        }).then(()=> {
+          location.reload()
+        })
+      })
+    } else {
+      swal({
+        icon: validar.tipo,
+        title: validar.title,
+        text: validar.description
+      })
+    }
+  }
+
+  function validarMonitoreo(d) {
+    var errores = 0;
+
+    if (d.vehiculo_id.length === 0) {
+      errores++
+      return {err: true, description: 'El campo vehiculo es requerido', tipo: 'error', title: 'Opss'}
+    }
+
+    if (d.estatus_monitoreo_id.length === 0) {
+      errores++
+      return {err: true, description: 'El campo estatus es requerido', tipo: 'error', title: 'Opss'}
+    }
+
+    if (d.nota.length === 0) {
+      errores++
+      return {err: true, description: 'El campo nota es requerido', tipo: 'error', title: 'Opss'}
+    }
+
+    if (errores == 0) {
+      return {err: false}
+    }
   }
 
 

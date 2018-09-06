@@ -308,10 +308,27 @@
   <div class="ui modal" id="modal-monitoreo">
     <div class="header">Agrega nuevo monitoreo</div>
     <div class="content">
-
+      <form class="ui form">
+        <div class="field">
+          <label>Selecciona un vehiculo</label>
+          <select ng-model="inicio.form.monitoreo.vehiculo_id">
+            <option value="{[l.vehiculo_id]}" ng-repeat="l in inicio.listVehiculo">{[l.nombre]}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Selecciona un estatus</label>
+          <select ng-model="inicio.form.monitoreo.estatus_monitoreo_id">
+            <option value="{[l.estatus_monitoreo_id]}" ng-repeat="l in inicio.listEstatusMonitoreo">{[l.nombre]}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nota</label>
+          <textarea name="name" rows="8" cols="80" ng-model="inicio.form.monitoreo.nota"></textarea>
+        </div><br>
+      </form>
     </div>
     <div class="actions">
-      <button type="button" name="button" class="ui button green" onclick="$('#modal-detalle').modal('hide')">Agregar</button>
+      <button type="button" name="button" class="ui button green" ng-click="btnAgregaMonitoreo()">Agregar</button>
       <button type="button" name="button" class="ui button blue" onclick="$('#modal-detalle').modal('hide')">Cerrar</button>
     </div>
   </div>

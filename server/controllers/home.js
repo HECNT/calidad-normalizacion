@@ -5,7 +5,9 @@ module.exports = {
   getMonitoreo: getMonitoreo,
   getTaller: getTaller,
   getVehiculo: getVehiculo,
-  getCount: getCount
+  getCount: getCount,
+  getMonitoreoList: getMonitoreoList,
+  setNewMonitoreo: setNewMonitoreo
 }
 
 function getInit() {
@@ -23,6 +25,23 @@ function getMonitoreo() {
     .then((res)=> {
       resolve(res);
     })
+  });
+}
+
+function getMonitoreoList() {
+  return new Promise(function(resolve, reject) {
+    var p1 = model.getVehiculoList();
+    var p2 = model.getEstatusMonitoreo();
+
+    Promise.all([p1, p2])
+    .then((res)=> {
+      var item = {
+        err: false,
+        result: res
+      }
+      resolve(item)
+    })
+
   });
 }
 
@@ -60,9 +79,18 @@ function getCount() {
         monitoreo: res[2][0].res,
         viaje: res[3][0].res
       }
-      
+
       resolve({ err: false, result: item })
     })
 
+  });
+}
+
+function setNewMonitoreo(d) {
+  return new Promise(function(resolve, reject) {
+    model.setNewMonitoreo(d)
+    .then((res)=> {
+      resolve(res);
+    })
   });
 }
